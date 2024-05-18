@@ -17,6 +17,12 @@ public interface ActorCastRepository extends JpaRepository<ActorsCast, Long> {
 
     List<ActorsCast> findActorsCastsByMovieIdAndMovieId(Long movieId, Long actorId);
 
+    List<ActorsCast> findActorsCastsByMovie_Title(String title);
+
+    List<ActorsCast> findActorsCastsByActor_Fio(String fio);
+
+    List<ActorsCast> findActorsCastsByActor_FioAndMovie_Title(String fio, String title);
+
     @Modifying
     @Query("DELETE FROM actors_cast WHERE actors_cast.actor_id = :id")
     void deleteActorsCastByActorId(@Param("id") Long id);

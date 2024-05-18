@@ -1,7 +1,7 @@
 package mappers;
 
 import com.example.javalab2.JavaLab2Application;
-import com.example.javalab2.dto.FeedBackDto;
+import com.example.javalab2.dto.FeedbackDto;
 import com.example.javalab2.entities.Feedback;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.User;
@@ -58,7 +58,7 @@ public class FeedBackMapperTest {
             LocalDate.of(2003, 3, 3),
             "feedback");
 
-    private static final FeedBackDto feedbackDto = new FeedBackDto(1L,
+    private static final FeedbackDto feedbackDto = new FeedbackDto(1L,
             "title",
             "nickName",
             LocalDate.of(2003, 3, 3),
@@ -67,7 +67,7 @@ public class FeedBackMapperTest {
 
     @Test
     public void fromEntityToDtoTest() {
-        final FeedBackDto feedBackDto = feedBackMapper.toDto(feedback);
+        final FeedbackDto feedBackDto = feedBackMapper.toDto(feedback);
         assertTrue(feedBackDto.getId().equals(feedback.getId()) &&
                 feedBackDto.getTitle().equals(feedback.getMovie().getTitle()) &&
                 feedBackDto.getNickName().equals(feedback.getUser().getNickName()) &&

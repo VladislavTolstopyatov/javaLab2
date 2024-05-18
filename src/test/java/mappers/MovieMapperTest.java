@@ -8,7 +8,6 @@ import com.example.javalab2.entities.enums.Genre;
 import com.example.javalab2.mappers.FeedBackMapper;
 import com.example.javalab2.mappers.MovieMapper;
 import com.example.javalab2.repositories.DirectorRepository;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -72,8 +71,8 @@ public class MovieMapperTest {
                 movieDto.getTitle().equals(movie.getTitle()) &&
                 movieDto.getDescription().equals(movie.getDescription()) &&
                 movieDto.getGenre().equals(movie.getGenre().toString()) &&
-                movieDto.getDuration().equals(movie.getDuration()) && movieDto.getFeedBackDtoList().size() ==
-                movie.getFeedbacks().size() && movieDto.getFeedBackDtoList().containsAll(feedBackMapper.toDto(movie.getFeedbacks())) &&
+                movieDto.getDuration().equals(movie.getDuration()) && movieDto.getFeedbackDtoList().size() ==
+                movie.getFeedbacks().size() && movieDto.getFeedbackDtoList().containsAll(feedBackMapper.toDto(movie.getFeedbacks())) &&
                 movieDto.getDateOfRelease().equals(movie.getDateOfRelease()) &&
                 name.equals(movie.getDirector().getName()) &&
                 surname.equals(movie.getDirector().getSurname()) &&
@@ -98,8 +97,8 @@ public class MovieMapperTest {
                 movieDto.getTitle().equals(movie.getTitle()) &&
                 movieDto.getDescription().equals(movie.getDescription()) &&
                 movieDto.getGenre().equals(movie.getGenre().toString()) &&
-                movieDto.getDuration().equals(movie.getDuration()) && movieDto.getFeedBackDtoList().size() ==
-                movie.getFeedbacks().size() && movieDto.getFeedBackDtoList().containsAll(feedBackMapper.toDto(movie.getFeedbacks())) &&
+                movieDto.getDuration().equals(movie.getDuration()) && movieDto.getFeedbackDtoList().size() ==
+                movie.getFeedbacks().size() && movieDto.getFeedbackDtoList().containsAll(feedBackMapper.toDto(movie.getFeedbacks())) &&
                 movieDto.getDateOfRelease().equals(movie.getDateOfRelease()) &&
                 name.equals(movie.getDirector().getName()) &&
                 surname.equals(movie.getDirector().getSurname()) &&

@@ -128,7 +128,7 @@ public class UserRepositoryTest {
                 Role.USER, Collections.emptyList());
 
         userRepository.save(user);
-        User userFromRepo = userRepository.findUsersByPasswordAndEmail(user.getPassword(), user.getEmail());
+        User userFromRepo = userRepository.findUserByPasswordAndEmail(user.getPassword(), user.getEmail());
         assertThat(user).isEqualTo(userFromRepo);
     }
 

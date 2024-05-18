@@ -1,15 +1,13 @@
 package com.example.javalab2.dto;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -18,9 +16,8 @@ import java.util.List;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class UserDto {
+public class ActorCastDto {
     private Long id;
-    private String email;
-    private String nickName;
-    private List<FeedbackDto> feedbackList;
+    private String actorFio;
+    private String movieTitle;
 }

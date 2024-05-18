@@ -1,18 +1,16 @@
 package com.example.javalab2.mappers;
 
-import com.example.javalab2.dto.FeedBackDto;
+import com.example.javalab2.dto.FeedbackDto;
 import com.example.javalab2.entities.Feedback;
 import com.example.javalab2.repositories.MovieRepository;
 import com.example.javalab2.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public abstract class FeedBackMapper implements Mappable<Feedback, FeedBackDto> {
+public abstract class FeedBackMapper implements Mappable<Feedback, FeedbackDto> {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -21,12 +19,12 @@ public abstract class FeedBackMapper implements Mappable<Feedback, FeedBackDto> 
     private UserRepository userRepository;
 
     @Override
-    public FeedBackDto toDto(Feedback feedbackEntity) {
+    public FeedbackDto toDto(Feedback feedbackEntity) {
         if (feedbackEntity == null) {
             return null;
         }
 
-        return FeedBackDto.builder()
+        return FeedbackDto.builder()
                 .id(feedbackEntity.getId())
                 .title(feedbackEntity.getMovie().getTitle())
                 .nickName(feedbackEntity.getUser().getNickName())
@@ -35,7 +33,7 @@ public abstract class FeedBackMapper implements Mappable<Feedback, FeedBackDto> 
     }
 
     @Override
-    public Feedback toEntity(FeedBackDto dto) {
+    public Feedback toEntity(FeedbackDto dto) {
         if (dto == null) {
             return null;
         }
@@ -49,7 +47,7 @@ public abstract class FeedBackMapper implements Mappable<Feedback, FeedBackDto> 
     }
 
     @Override
-    public List<FeedBackDto> toDto(List<Feedback> entities) {
+    public List<FeedbackDto> toDto(List<Feedback> entities) {
         if (entities == null) {
             return null;
         }
@@ -58,7 +56,7 @@ public abstract class FeedBackMapper implements Mappable<Feedback, FeedBackDto> 
     }
 
     @Override
-    public List<Feedback> toEntities(List<FeedBackDto> dto) {
+    public List<Feedback> toEntities(List<FeedbackDto> dto) {
         if (dto == null) {
             return null;
         }

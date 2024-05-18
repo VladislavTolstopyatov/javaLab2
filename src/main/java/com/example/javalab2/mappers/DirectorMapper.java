@@ -2,10 +2,8 @@ package com.example.javalab2.mappers;
 
 import com.example.javalab2.dto.DirectorDto;
 import com.example.javalab2.entities.Director;
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

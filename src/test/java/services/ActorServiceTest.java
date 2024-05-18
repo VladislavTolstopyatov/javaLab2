@@ -6,7 +6,7 @@ import com.example.javalab2.dto.ActorDto;
 import com.example.javalab2.entities.Actor;
 import com.example.javalab2.exceptions.ActorFioAlreadyExistsException;
 import com.example.javalab2.exceptions.ModelNotFoundException;
-import com.example.javalab2.mappers.ActorMapperImpl;
+import com.example.javalab2.mappers.ActorMapper;
 import com.example.javalab2.repositories.ActorRepository;
 import com.example.javalab2.services.ActorService;
 import org.junit.jupiter.api.Test;
@@ -22,9 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,7 +31,7 @@ import static org.mockito.Mockito.when;
 public class ActorServiceTest {
 
     @MockBean
-    private ActorMapperImpl actorMapper;
+    private ActorMapper actorMapper;
 
     @MockBean
     private ActorRepository actorRepository;
@@ -102,8 +99,8 @@ public class ActorServiceTest {
 
     @Test
     void findActorsByBirthdateWhenActorsExists() {
-        List<Actor> actorList = List.of(getActor());
-        List<ActorDto> actorDtos = List.of(getActorDto());
+        final List<Actor> actorList = List.of(getActor());
+        final List<ActorDto> actorDtos = List.of(getActorDto());
 
         when(actorRepository.findActorsByBirthdate(actorList.get(0).getBirthdate()))
                 .thenReturn(actorList);
@@ -126,7 +123,7 @@ public class ActorServiceTest {
 
     @Test
     void findAllActorsWhenActorsExists() {
-        List<Actor> actorList = List.of(getActor());
+        final List<Actor> actorList = List.of(getActor());
         List<ActorDto> actorDtos = List.of(getActorDto());
 
         when(actorRepository.findAll())
@@ -150,7 +147,7 @@ public class ActorServiceTest {
 
     @Test
     void saveActorWhenFioUnique() throws ModelNotFoundException, ActorFioAlreadyExistsException {
-        Actor actor = getActor();
+        final Actor actor = getActor();
         when(actorRepository.save(actor)).thenReturn(actor);
         when(actorRepository.findById(actor.getId())).thenReturn(Optional.of(actor));
         when(actorMapper.toDto(actor)).thenReturn(getActorDto());
@@ -161,7 +158,7 @@ public class ActorServiceTest {
 
     @Test
     void saveActorWhenFioNotUnique() throws ActorFioAlreadyExistsException {
-        ActorDto actorDto = getActorDto();
+        final ActorDto actorDto = getActorDto();
         when(actorRepository.findActorByFio(actorDto.getFio())).thenReturn(getActor());
         assertThrows(ActorFioAlreadyExistsException.class, () -> actorService.saveActor(actorDto));
     }

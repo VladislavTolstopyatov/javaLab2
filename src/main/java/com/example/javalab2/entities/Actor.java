@@ -34,7 +34,7 @@ public class Actor {
     private Long id;
 
     @NotNull
-    @Column(name = "fio")
+    @Column(name = "fio", unique = true)
     private String fio;
 
     @NotNull

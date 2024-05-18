@@ -55,19 +55,32 @@ public class DirectorRepositoryTest {
     }
 
     @Test
+    void deleteDirectorByIdTest() {
+        Director director = directorRepository.save(new Director(null,
+                "name",
+                "surname,",
+                "patronymic",
+                LocalDate.of(2003, 3, 4),
+                Boolean.TRUE, Collections.emptyList()));
+
+        directorRepository.deleteById(director.getId());
+        assertThat(directorRepository.findById(director.getId()).isEmpty()).isTrue();
+    }
+
+    @Test
     void findAllDirectorsTest() {
         List<Director> directorList = List.of(new Director(null,
                         "name",
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = (List<Director>) directorRepository.findAll();
@@ -82,13 +95,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         directorRepository.deleteAll();
@@ -103,13 +116,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = directorRepository.findDirectorsByName(directorList.get(0).getName());
@@ -124,13 +137,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = directorRepository.findDirectorsBySurname(directorList.get(0).getSurname());
@@ -145,13 +158,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = directorRepository.findDirectorsByPatronymic(directorList.get(0).getPatronymic());
@@ -166,13 +179,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 5),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = directorRepository.findDirectorsByBirthdate(directorList.get(0).getBirthdate());
@@ -187,13 +200,13 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
         List<Director> directors = directorRepository.findDirectorsByOscar(directorList.get(0).getOscar());
@@ -208,17 +221,17 @@ public class DirectorRepositoryTest {
                         "surname",
                         "patronymic",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.TRUE,Collections.emptyList()),
+                        Boolean.TRUE, Collections.emptyList()),
                 new Director(null,
                         "name1",
                         "surname1",
                         "patronymic1",
                         LocalDate.of(2003, 3, 4),
-                        Boolean.FALSE,Collections.emptyList()));
+                        Boolean.FALSE, Collections.emptyList()));
         directorRepository.saveAll(directorList);
         directorRepository.deleteDirectorByNameAndSurnameAndPatronymic(directorList.get(0).getName(),
                 directorList.get(0).getSurname(), directorList.get(0).getPatronymic());
-        List<Director> directors = (List<Director>) directorRepository.findAll();
+        List<Director> directors = directorRepository.findAll();
         assertTrue(directors.get(0).equals(directorList.get(1)) &&
                 directors.size() == 1);
     }
@@ -230,7 +243,7 @@ public class DirectorRepositoryTest {
                 "surname,",
                 "patronymic",
                 LocalDate.of(2003, 3, 4),
-                Boolean.FALSE,Collections.emptyList()));
+                Boolean.FALSE, Collections.emptyList()));
         director.setOscar(Boolean.TRUE);
         Director updatedDirector = directorRepository.save(director);
         assertThat(director).isEqualTo(director).isEqualTo(updatedDirector);

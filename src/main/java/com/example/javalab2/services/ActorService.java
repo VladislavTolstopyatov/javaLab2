@@ -67,8 +67,9 @@ public class ActorService {
     }
 
     public ActorDto saveActor(ActorDto actorDto) throws ActorFioAlreadyExistsException {
-        if(actorRepository.findActorByFio(actorDto.getFio())!= null) {
-            throw new ActorFioAlreadyExistsException(String.format("Actor fio %s already exists",actorDto.getFio()));
+        if (actorRepository.findActorByFio(actorDto.getFio()) != null) {
+            throw new ActorFioAlreadyExistsException(String.format("Actor with fio %s already exists",
+                    actorDto.getFio()));
         }
         Actor actor = actorMapper.toEntity(actorDto);
         return actorMapper.toDto(actorRepository.save(actor));

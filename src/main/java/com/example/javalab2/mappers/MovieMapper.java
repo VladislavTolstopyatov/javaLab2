@@ -4,10 +4,8 @@ import com.example.javalab2.dto.MovieDto;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
 import com.example.javalab2.repositories.DirectorRepository;
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -34,7 +32,7 @@ public abstract class MovieMapper implements Mappable<Movie, MovieDto> {
                 .directorFio(movieEntity.getDirector().getName() +
                         " " + movieEntity.getDirector().getSurname() +
                         " " + movieEntity.getDirector().getPatronymic())
-                .feedBackDtoList(feedBackMapper.toDto(movieEntity.getFeedbacks()))
+                .feedbackDtoList(feedBackMapper.toDto(movieEntity.getFeedbacks()))
                 .duration(movieEntity.getDuration())
                 .build();
     }
@@ -57,7 +55,7 @@ public abstract class MovieMapper implements Mappable<Movie, MovieDto> {
                         fio.get(0),
                         fio.get(1),
                         fio.get(2)))
-                .feedbacks(feedBackMapper.toEntities(dto.getFeedBackDtoList()))
+                .feedbacks(feedBackMapper.toEntities(dto.getFeedbackDtoList()))
                 .dateOfRelease(dto.getDateOfRelease())
                 .build();
     }
