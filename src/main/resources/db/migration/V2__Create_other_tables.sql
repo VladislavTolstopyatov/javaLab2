@@ -2,7 +2,7 @@ CREATE TABLE actors
 (
     actor_id  BIGSERIAL PRIMARY KEY,
     fio       TEXT  NOT NULL,
-    birthdate DATE  NOT NULL,
+    birthdate DATE  NOT NULL
 );
 
 
@@ -13,7 +13,7 @@ CREATE TABLE directors
     surname     TEXT    NOT NULL,
     patronymic  TEXT    NOT NULL,
     birthdate   DATE    NOT NULL,
-    oscar       BOOLEAN NOT NULL,
+    oscar       BOOLEAN NOT NULL
 );
 
 CREATE TABLE movies

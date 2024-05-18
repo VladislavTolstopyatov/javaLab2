@@ -1,5 +1,21 @@
-spring.datasource.url=jdbc:postgresql://localhost:5432/KeysToGames
-spring.datasource.username=postgres
-spring.datasource.password=postgres
-spring.datasource.driver-class-name=org.postgresql.Driver
-server.port=8081
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/films
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    baselineOnMigrate: true
+    locations: classpath:db/migration
+    schemas: public
+    enabled: true
+    fail-on-missing-locations: true
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
