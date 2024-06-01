@@ -5,9 +5,7 @@ import com.example.javalab2.entities.Director;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.mappers.DirectorMapper;
 import com.example.javalab2.repositories.DirectorRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

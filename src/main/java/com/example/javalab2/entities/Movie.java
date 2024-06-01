@@ -70,4 +70,8 @@ public class Movie {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
             mappedBy = "movie")
     private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,
+            mappedBy = "movie")
+    private List<ActorsCast> actorsCasts = new ArrayList<>();
 }

@@ -1,16 +1,14 @@
 package mappers;
 
 import com.example.javalab2.JavaLab2Application;
-import com.example.javalab2.dto.UserDto;
+import com.example.javalab2.dto.UsersDto.UserDto;
 import com.example.javalab2.entities.User;
 import com.example.javalab2.entities.enums.Role;
 import com.example.javalab2.mappers.FeedBackMapper;
 import com.example.javalab2.mappers.UserMapper;
-import com.example.javalab2.repositories.FeedBackRepository;
 import com.example.javalab2.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -27,9 +25,6 @@ public class UserMapperTest {
 
     @MockBean
     private UserRepository userRepository;
-
-    @MockBean
-    private FeedBackRepository feedBackRepository;
 
     @Autowired
     private FeedBackMapper feedBackMapper;

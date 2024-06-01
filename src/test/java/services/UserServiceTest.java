@@ -1,21 +1,21 @@
 package services;
 
-import com.example.javalab2.JavaLab2Application;
-import com.example.javalab2.dto.UserDto;
+import com.example.javalab2.dto.UsersDto.CreateUserDto;
+import com.example.javalab2.dto.UsersDto.UserDto;
 import com.example.javalab2.entities.User;
 import com.example.javalab2.entities.enums.Role;
 import com.example.javalab2.exceptions.EmailAlreadyExistsException;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.exceptions.NickNameAlreadyExistsException;
+import com.example.javalab2.mappers.CreateUserDtoMapper;
 import com.example.javalab2.mappers.UserMapper;
 import com.example.javalab2.repositories.UserRepository;
 import com.example.javalab2.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,51 +28,52 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class UserServiceTest {
-    @MockBean
+    @Mock
     private UserRepository userRepository;
-    @MockBean
+    @Mock
     private UserMapper userMapper;
-    @Autowired
+
+    @Mock
+    private CreateUserDtoMapper createUserDtoMapper;
+    @InjectMocks
     private UserService userService;
 
     @Test
     public void saveUserWhenNickNameAndEmailUnique() throws EmailAlreadyExistsException, NickNameAlreadyExistsException {
         final User user = getUser();
-        final UserDto userDto = getUserDto();
+        final CreateUserDto createUserDto = getCreateUserDto();
 
-        when(userRepository.findUserByNickName(userDto.getNickName())).thenReturn(null);
-        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(null);
+        when(userRepository.findUserByNickName(createUserDto.getNickName())).thenReturn(null);
+        when(userRepository.findUserByEmail(createUserDto.getEmail())).thenReturn(null);
         when(userRepository.save(user)).thenReturn(user);
 
-        when(userMapper.toEntity(userDto)).thenReturn(user);
-        when(userMapper.toDto(user)).thenReturn(userDto);
+        when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
+        when(createUserDtoMapper.toDto(user)).thenReturn(createUserDto);
 
-        assertThat(userDto).isEqualTo(userService.saveUser(userDto));
+        assertThat(createUserDto).isEqualTo(userService.saveUser(createUserDto));
     }
 
     @Test
     public void saveUserWhenNickNameNotUnique() {
         final User user = getUser();
-        final UserDto userDto = getUserDto();
+        final CreateUserDto createUserDto = getCreateUserDto();
 
-        when(userMapper.toEntity(userDto)).thenReturn(user);
-        when(userRepository.findUserByNickName(userDto.getNickName())).thenReturn(user);
+        when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
+        when(userRepository.findUserByNickName(createUserDto.getNickName())).thenReturn(user);
 
-        assertThrows(NickNameAlreadyExistsException.class, () -> userService.saveUser(userDto));
+        assertThrows(NickNameAlreadyExistsException.class, () -> userService.saveUser(createUserDto));
     }
 
     @Test
     public void saveUserWhenEmailNotUnique() {
         final User user = getUser();
-        final UserDto userDto = getUserDto();
+        final CreateUserDto createUserDto = getCreateUserDto();
 
-        when(userMapper.toEntity(userDto)).thenReturn(user);
-        when(userRepository.findUserByNickName(userDto.getNickName())).thenReturn(null);
-        when(userRepository.findUserByEmail(userDto.getEmail())).thenReturn(user);
+        when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
+        when(userRepository.findUserByEmail(createUserDto.getEmail())).thenReturn(user);
 
-        assertThrows(EmailAlreadyExistsException.class, () -> userService.saveUser(userDto));
+        assertThrows(EmailAlreadyExistsException.class, () -> userService.saveUser(createUserDto));
     }
 
     @Test
@@ -214,5 +215,11 @@ public class UserServiceTest {
                 "nickName",
                 Role.USER,
                 Collections.emptyList());
+    }
+
+    private static CreateUserDto getCreateUserDto() {
+        return new CreateUserDto("email",
+                "nickname",
+                "password");
     }
 }

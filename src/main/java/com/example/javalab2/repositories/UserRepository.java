@@ -1,9 +1,9 @@
 package com.example.javalab2.repositories;
 
 import com.example.javalab2.entities.User;
-import org.springframework.data.jdbc.repository.query.Modifying;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +16,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findUserByEmail(String email);
 
     @Modifying
-    @Query("DELETE FROM users WHERE nickname LIKE :nickName")
+    @Query(value = "DELETE FROM users WHERE nickname LIKE :nickName", nativeQuery = true)
     void deleteUserByNickName(@Param("nickName") String nickName);
 
     @Modifying
-    @Query("DELETE FROM users WHERE email LIKE :email")
+    @Query(value = "DELETE FROM users WHERE email LIKE :email", nativeQuery = true)
     void deleteUserByEmail(@Param("email") String email);
 }

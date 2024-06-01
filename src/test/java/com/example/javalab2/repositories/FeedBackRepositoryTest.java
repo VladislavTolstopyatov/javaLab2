@@ -80,13 +80,20 @@ public class FeedBackRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        feedBackRepository.deleteAll();
     }
 
     @AfterEach
     void tearDown() {
         userRepository.deleteById(user.getId());
         directorRepository.deleteById(director.getId());
+        feedBackRepository.deleteAll();
     }
 
     @Test
@@ -219,7 +226,7 @@ public class FeedBackRepositoryTest {
                         "test")
         );
         feedBackRepository.saveAll(feedbackList);
-        List<Feedback> feedbacks = feedBackRepository.findFeedbacksByUserIdAndMovieId(movie.getId(), user.getId());
+        List<Feedback> feedbacks = feedBackRepository.findFeedbacksByUserIdAndMovieId(user.getId(), movie.getId());
         assertTrue(feedbacks.size() == feedbackList.size() &&
                 feedbacks.containsAll(feedbackList) && feedbackList.containsAll(feedbacks));
     }
@@ -259,7 +266,7 @@ public class FeedBackRepositoryTest {
                         "test")
         );
         feedBackRepository.saveAll(feedbackList);
-        feedBackRepository.deleteFeedbacksByMovieId(user.getId());
+        feedBackRepository.deleteFeedbacksByMovieId(movie.getId());
         List<Feedback> feedbacks = feedBackRepository.findFeedbacksByMovieId(movie.getId());
         assertThat(feedbacks.isEmpty()).isTrue();
     }

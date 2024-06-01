@@ -4,6 +4,7 @@ import com.example.javalab2.entities.Director;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,7 @@ public class MovieRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        movieRepository.deleteAll();
         director = directorRepository.save(new Director(null,
                 "test",
                 "test",
@@ -69,7 +71,9 @@ public class MovieRepositoryTest {
                 Genre.COMEDY,
                 LocalDate.of(2003, 3, 3),
                 150,
-                director, Collections.emptyList()));
+                director,
+                Collections.emptyList(),
+                Collections.emptyList()));
 
         assertThat(movie).isEqualTo(movieRepository.findById(movie.getId()).get());
     }
@@ -83,6 +87,7 @@ public class MovieRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
         movieRepository.deleteById(movie.getId());
         assertThat(movieRepository.findById(movie.getId())).isEmpty();
@@ -97,6 +102,7 @@ public class MovieRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
 
         movie.setDuration(130);
@@ -114,6 +120,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -122,11 +129,12 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
 
-        List<Movie> moviesFromRepo = (List<Movie>) movieRepository.findAll();
+        List<Movie> moviesFromRepo = movieRepository.findAll();
         assertTrue(movieList.size() == moviesFromRepo.size() &&
                 movieList.containsAll(moviesFromRepo) && moviesFromRepo.containsAll(movieList));
     }
@@ -141,6 +149,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -149,6 +158,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
@@ -166,6 +176,7 @@ public class MovieRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
 
         Movie movieFromRepo = movieRepository.findMovieByTitle(movie.getTitle());
@@ -181,6 +192,7 @@ public class MovieRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
 
         Movie movieFromRepo = movieRepository.findMovieByDescription(movie.getDescription());
@@ -197,6 +209,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -205,6 +218,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
@@ -223,6 +237,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -231,6 +246,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
@@ -249,6 +265,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -257,6 +274,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
@@ -275,6 +293,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -283,6 +302,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);
@@ -300,6 +320,7 @@ public class MovieRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()));
         movieRepository.deleteByTitle(movie.getTitle());
         assertThat(movieRepository.findMovieByTitle(movie.getTitle())).isNull();
@@ -315,6 +336,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()),
                 new Movie(null,
                         "test1",
@@ -323,6 +345,7 @@ public class MovieRepositoryTest {
                         LocalDate.of(2003, 3, 3),
                         150,
                         director,
+                        Collections.emptyList(),
                         Collections.emptyList()));
 
         movieRepository.saveAll(movieList);

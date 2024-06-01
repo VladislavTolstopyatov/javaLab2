@@ -1,10 +1,12 @@
 package com.example.javalab2.services;
 
-import com.example.javalab2.dto.UserDto;
+import com.example.javalab2.dto.UsersDto.CreateUserDto;
+import com.example.javalab2.dto.UsersDto.UserDto;
 import com.example.javalab2.entities.User;
 import com.example.javalab2.exceptions.EmailAlreadyExistsException;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.exceptions.NickNameAlreadyExistsException;
+import com.example.javalab2.mappers.CreateUserDtoMapper;
 import com.example.javalab2.mappers.UserMapper;
 import com.example.javalab2.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +20,23 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final CreateUserDtoMapper createUserDtoMapper;
 
-    public UserDto saveUser(UserDto userDto) throws EmailAlreadyExistsException, NickNameAlreadyExistsException {
-        User user = userRepository.findUserByEmail(userMapper.toEntity(userDto).getEmail());
+    public CreateUserDto saveUser(CreateUserDto createUserDto) throws EmailAlreadyExistsException, NickNameAlreadyExistsException {
+        User user = userRepository.findUserByEmail(createUserDtoMapper.toEntity(createUserDto).getEmail());
         if (user != null) {
             throw new EmailAlreadyExistsException(String.format("User with email %s already exists",
-                    userDto.getEmail()));
+                    createUserDto.getEmail()));
         }
 
-        user = userRepository.findUserByNickName(userDto.getNickName());
+        user = userRepository.findUserByNickName(createUserDto.getNickName());
         if (user != null) {
             throw new NickNameAlreadyExistsException(String.format("User with nickName %s already exists",
-                    userDto.getNickName()));
+                    createUserDto.getNickName()));
         }
 
-        user = userRepository.save(userMapper.toEntity(userDto));
-        return userMapper.toDto(user);
+        user = userRepository.save(createUserDtoMapper.toEntity(createUserDto));
+        return createUserDtoMapper.toDto(user);
     }
 
     public List<UserDto> getAllUsers() {

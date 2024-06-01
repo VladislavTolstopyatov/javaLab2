@@ -11,7 +11,7 @@ import java.util.List;
 public  abstract class DirectorMapper implements Mappable<Director, DirectorDto> {
 
     @Autowired
-    private  MovieMapper movieMapper;
+    private MovieMapper movieMapper;
 
     @Override
     public DirectorDto toDto(Director directorEntity) {

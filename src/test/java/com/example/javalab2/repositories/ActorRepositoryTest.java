@@ -1,7 +1,14 @@
 package com.example.javalab2.repositories;
 
 import com.example.javalab2.entities.Actor;
+import com.example.javalab2.entities.ActorsCast;
+import com.example.javalab2.entities.Director;
+import com.example.javalab2.entities.Movie;
+import com.example.javalab2.entities.enums.Genre;
+import org.junit.Before;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -12,6 +19,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -30,10 +38,24 @@ public class ActorRepositoryTest {
     @Autowired
     private ActorRepository actorRepository;
 
+    @Autowired
+    private DirectorRepository directorRepository;
+
+    @Autowired
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private ActorCastRepository actorCastRepository;
+
     @Test
     void testThatConnectionEstablished() {
         assertThat(postgresSQLContainer.isCreated()).isTrue();
         assertThat(postgresSQLContainer.isRunning()).isTrue();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        actorRepository.deleteAll();
     }
 
     @AfterEach
@@ -130,5 +152,41 @@ public class ActorRepositoryTest {
         actor.setFio("new");
         actor = actorRepository.save(actor);
         assertThat(actor).isEqualTo(actorRepository.findActorByFio(actor.getFio()));
+    }
+
+    @Test
+    void findAllActorsByMovieIdTest() {
+        Director director = directorRepository.save(new Director(null,
+                "test",
+                "test",
+                "test",
+                LocalDate.of(2003, 3, 3),
+                Boolean.TRUE,
+                Collections.emptyList()));
+
+        Movie movie = movieRepository.save(new Movie(null,
+                "test",
+                "test",
+                Genre.COMEDY,
+                LocalDate.of(2003, 3, 3),
+                150,
+                director,
+                Collections.emptyList(),
+                Collections.emptyList()
+        ));
+
+        Actor actor = actorRepository.save(new Actor(null,
+                "test",
+                LocalDate.of(2003, 3, 3)
+        ));
+
+        ActorsCast actorsCast = actorCastRepository.save(new ActorsCast(null,
+                actor,
+                movie));
+
+        List<Actor> actors = List.of(actor);
+        List<Actor> actorListFromRepository = actorRepository.findActorsByMovieId(movie.getId());
+        assertThat(actors.get(0).equals(actorListFromRepository.get(0))
+                && actors.size() == actorListFromRepository.size()).isTrue();
     }
 }

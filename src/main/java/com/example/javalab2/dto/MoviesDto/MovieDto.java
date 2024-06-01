@@ -1,5 +1,7 @@
-package com.example.javalab2.dto;
+package com.example.javalab2.dto.MoviesDto;
 
+import com.example.javalab2.dto.ActorDto;
+import com.example.javalab2.dto.FeedbackDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,5 +29,6 @@ public class MovieDto {
     private String directorFio;
     private LocalDate dateOfRelease;
     private Integer duration;
-    List<FeedbackDto> feedbackDtoList;
+    private List<FeedbackDto> feedbackDtoList;
+    private List<ActorDto> actorDtoList;
 }

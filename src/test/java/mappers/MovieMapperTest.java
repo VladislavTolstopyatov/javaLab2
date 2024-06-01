@@ -1,12 +1,14 @@
 package mappers;
 
 import com.example.javalab2.JavaLab2Application;
-import com.example.javalab2.dto.MovieDto;
+import com.example.javalab2.dto.MoviesDto.MovieDto;
 import com.example.javalab2.entities.Director;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
 import com.example.javalab2.mappers.FeedBackMapper;
 import com.example.javalab2.mappers.MovieMapper;
+import com.example.javalab2.repositories.ActorCastRepository;
+import com.example.javalab2.repositories.ActorRepository;
 import com.example.javalab2.repositories.DirectorRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +33,12 @@ public class MovieMapperTest {
     @MockBean
     private DirectorRepository directorRepository;
 
+    @MockBean
+    private ActorRepository actorRepository;
+
+    @MockBean
+    private ActorCastRepository actorCastRepository;
+
     @Autowired
     private FeedBackMapper feedBackMapper;
 
@@ -48,6 +56,7 @@ public class MovieMapperTest {
             Genre.COMEDY, LocalDate.of(2003, 3, 3),
             150,
             director,
+            Collections.emptyList(),
             Collections.emptyList());
 
     private static final MovieDto movieDto = new MovieDto(1L,
@@ -56,7 +65,9 @@ public class MovieMapperTest {
             "COMEDY",
             "name surname patronymic",
             LocalDate.of(2003, 3, 3),
-            150, Collections.emptyList());
+            150,
+            Collections.emptyList(),
+            Collections.emptyList());
 
     @Test
     public void fromEntityToDtoTest() {
@@ -66,6 +77,7 @@ public class MovieMapperTest {
         String name = directorFio.get(0);
         String surname = directorFio.get(1);
         String patronymic = directorFio.get(2);
+        when(actorRepository.findActorsByMovieId(movieDto.getId())).thenReturn(Collections.emptyList());
 
         assertTrue(movieDto.getId().equals(movie.getId()) &&
                 movieDto.getTitle().equals(movie.getTitle()) &&
@@ -90,6 +102,7 @@ public class MovieMapperTest {
                 directorFio.get(0),
                 directorFio.get(1),
                 directorFio.get(2))).thenReturn(director);
+        when(actorCastRepository.findActorsCastsByMovieId(movieDto.getId())).thenReturn(Collections.emptyList());
 
         final Movie movie = movieMapper.toEntity(movieDto);
 

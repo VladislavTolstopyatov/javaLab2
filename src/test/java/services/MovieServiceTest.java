@@ -1,21 +1,21 @@
 package services;
 
-import com.example.javalab2.JavaLab2Application;
-import com.example.javalab2.dto.MovieDto;
+import com.example.javalab2.dto.MoviesDto.CreateMovieDto;
+import com.example.javalab2.dto.MoviesDto.MovieDto;
 import com.example.javalab2.entities.Director;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.exceptions.MovieTitleAlreadyExistsException;
+import com.example.javalab2.mappers.CreateMovieDtoMapper;
 import com.example.javalab2.mappers.MovieMapper;
 import com.example.javalab2.repositories.MovieRepository;
 import com.example.javalab2.services.MovieService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -29,13 +29,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class MovieServiceTest {
-    @MockBean
+    @Mock
     private MovieRepository movieRepository;
-    @MockBean
+    @Mock
     private MovieMapper movieMapper;
-    @Autowired
+
+    @Mock
+    private CreateMovieDtoMapper createMovieDtoMapper;
+    @InjectMocks
     private MovieService movieService;
 
     private static final Director director = new Director(1L,
@@ -49,22 +51,22 @@ public class MovieServiceTest {
     @Test
     public void saveMovieWhenTitleUnique() throws MovieTitleAlreadyExistsException {
         final Movie movie = getMovie();
-        final MovieDto movieDto = getMovieDto();
+        final CreateMovieDto createMovieDto = getCreateMovieDto();
 
-        when(movieRepository.findMovieByTitle(movieDto.getTitle())).thenReturn(null);
+        when(movieRepository.findMovieByTitle(createMovieDto.getTitle())).thenReturn(null);
         when(movieRepository.save(movie)).thenReturn(movie);
-        when(movieMapper.toEntity(movieDto)).thenReturn(movie);
-        when(movieMapper.toDto(movie)).thenReturn(movieDto);
-        assertThat(movieDto).isEqualTo(movieService.saveMovie(movieDto));
+        when(createMovieDtoMapper.toEntity(createMovieDto)).thenReturn(movie);
+        when(createMovieDtoMapper.toDto(movie)).thenReturn(createMovieDto);
+        assertThat(createMovieDto).isEqualTo(movieService.saveMovie(createMovieDto));
     }
 
     @Test
     public void saveMovieWhenTitleNotUnique() {
         final Movie movie = getMovie();
-        final MovieDto movieDto = getMovieDto();
+        final CreateMovieDto createMovieDto = getCreateMovieDto();
 
-        when(movieRepository.findMovieByTitle(movieDto.getTitle())).thenReturn(movie);
-        assertThrows(MovieTitleAlreadyExistsException.class, () -> movieService.saveMovie(movieDto));
+        when(movieRepository.findMovieByTitle(createMovieDto.getTitle())).thenReturn(movie);
+        assertThrows(MovieTitleAlreadyExistsException.class, () -> movieService.saveMovie(createMovieDto));
     }
 
     @Test
@@ -246,6 +248,7 @@ public class MovieServiceTest {
                 "name surname patronymic",
                 LocalDate.of(2003, 3, 3),
                 150,
+                Collections.emptyList(),
                 Collections.emptyList());
     }
 
@@ -258,6 +261,16 @@ public class MovieServiceTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList());
+    }
+
+    private static CreateMovieDto getCreateMovieDto() {
+        return new CreateMovieDto("title",
+                "description",
+                Genre.COMEDY.toString(),
+                director.getId(),
+                LocalDate.of(2003, 3, 3),
+                150);
     }
 }

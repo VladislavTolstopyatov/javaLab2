@@ -1,10 +1,12 @@
 package com.example.javalab2.services;
 
-import com.example.javalab2.dto.MovieDto;
+import com.example.javalab2.dto.MoviesDto.CreateMovieDto;
+import com.example.javalab2.dto.MoviesDto.MovieDto;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.exceptions.MovieTitleAlreadyExistsException;
+import com.example.javalab2.mappers.CreateMovieDtoMapper;
 import com.example.javalab2.mappers.MovieMapper;
 import com.example.javalab2.repositories.MovieRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,15 @@ import java.util.Optional;
 public class MovieService {
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
+    private final CreateMovieDtoMapper createMovieDtoMapper;
 
-    public MovieDto saveMovie(MovieDto movieDto) throws MovieTitleAlreadyExistsException {
-        Movie movie = movieRepository.findMovieByTitle(movieDto.getTitle());
+    public CreateMovieDto saveMovie(CreateMovieDto createMovieDto) throws MovieTitleAlreadyExistsException {
+        Movie movie = movieRepository.findMovieByTitle(createMovieDto.getTitle());
         if (movie != null) {
             throw new MovieTitleAlreadyExistsException(String.format("Movie with title %s already exists",
-                    movieDto.getTitle()));
+                    createMovieDto.getTitle()));
         } else {
-            return movieMapper.toDto(movieRepository.save(movieMapper.toEntity(movieDto)));
+            return createMovieDtoMapper.toDto(movieRepository.save(createMovieDtoMapper.toEntity(createMovieDto)));
         }
     }
 

@@ -2,7 +2,6 @@ package mappers;
 
 import com.example.javalab2.JavaLab2Application;
 import com.example.javalab2.dto.ActorCastDto;
-import com.example.javalab2.dto.ActorDto;
 import com.example.javalab2.entities.Actor;
 import com.example.javalab2.entities.ActorsCast;
 import com.example.javalab2.entities.Movie;
@@ -20,7 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.time.LocalDate;
 import java.util.Collections;
 
-import static org.assertj.core.api.FactoryBasedNavigableListAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -41,6 +39,7 @@ public class ActorCastMapperTest {
             LocalDate.of(2003, 3, 3),
             150,
             null,
+            Collections.emptyList(),
             Collections.emptyList());
 
     private static final Actor actor = new Actor(1L,

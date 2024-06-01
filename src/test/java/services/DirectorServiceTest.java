@@ -1,6 +1,5 @@
 package services;
 
-import com.example.javalab2.JavaLab2Application;
 import com.example.javalab2.dto.DirectorDto;
 import com.example.javalab2.entities.Director;
 import com.example.javalab2.exceptions.ModelNotFoundException;
@@ -9,10 +8,9 @@ import com.example.javalab2.repositories.DirectorRepository;
 import com.example.javalab2.services.DirectorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -26,13 +24,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class DirectorServiceTest {
-    @MockBean
+    @Mock
     private DirectorRepository directorRepository;
-    @MockBean
+    @Mock
     private DirectorMapper directorMapper;
-    @Autowired
+    @InjectMocks
     private DirectorService directorService;
 
     @Test

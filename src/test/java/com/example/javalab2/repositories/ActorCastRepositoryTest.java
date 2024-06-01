@@ -71,6 +71,7 @@ public class ActorCastRepositoryTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList()
         ));
 
@@ -93,6 +94,7 @@ public class ActorCastRepositoryTest {
                 movie));
         assertThat(actorCastRepository.findById(actorsCast.getId()).get()).isEqualTo(actorsCast);
     }
+
 
     @Test
     void deleteActorCastByIdTest() {

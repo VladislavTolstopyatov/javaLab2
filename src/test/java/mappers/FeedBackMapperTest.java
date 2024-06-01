@@ -42,6 +42,7 @@ public class FeedBackMapperTest {
             Genre.COMEDY, LocalDate.of(2003, 3, 3),
             150,
             null,
+            Collections.emptyList(),
             Collections.emptyList());
 
     private static final User user = new User(1L,

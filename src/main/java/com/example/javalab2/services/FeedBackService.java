@@ -51,12 +51,12 @@ public class FeedBackService {
         feedBackRepository.deleteFeedbacksByMovieId(id);
     }
 
-    public void deleteAllFeedBacksByMovieIdAndUserId(Long movieId, Long userId) {
-        if (movieId <= 0 || userId <= 0) {
-            throw new IllegalArgumentException("1 or more id <= 0");
-        }
-        feedBackRepository.deleteFeedbacksByUserIdAndMovieId(movieId, userId);
-    }
+//    public void deleteAllFeedBacksByMovieIdAndUserId(Long movieId, Long userId) {
+//        if (movieId <= 0 || userId <= 0) {
+//            throw new IllegalArgumentException("1 or more id <= 0");
+//        }
+//        feedBackRepository.deleteFeedbacksByUserIdAndMovieId(movieId, userId);
+//    }
 
     public FeedbackDto findFeedBackById(Long id) throws ModelNotFoundException {
         if (id <= 0) {
@@ -91,6 +91,4 @@ public class FeedBackService {
         }
         return feedBackMapper.toDto(feedBackRepository.findFeedbacksByUserIdAndMovieId(movieId, userId));
     }
-
-
 }

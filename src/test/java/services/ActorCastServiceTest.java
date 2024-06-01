@@ -1,6 +1,5 @@
 package services;
 
-import com.example.javalab2.JavaLab2Application;
 import com.example.javalab2.dto.ActorCastDto;
 import com.example.javalab2.entities.Actor;
 import com.example.javalab2.entities.ActorsCast;
@@ -14,43 +13,36 @@ import com.example.javalab2.repositories.MovieRepository;
 import com.example.javalab2.services.ActorCastService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class ActorCastServiceTest {
-    @MockBean
+    @Mock
     private MovieRepository movieRepository;
-    @MockBean
+    @Mock
     private ActorRepository actorRepository;
-    @MockBean
+    @Mock
     private ActorCastRepository actorCastRepository;
-    @MockBean
+    @Mock
     private ActorCastMapper actorCastMapper;
-    @Autowired
+    @InjectMocks
     private ActorCastService actorCastService;
 
     @Test
     public void saveActorCast() {
         final ActorsCast actorsCast = getActorCast();
         final ActorCastDto actorCastDto = getActorCastDto();
-
-        when(movieRepository.findMovieByTitle(actorCastDto.getMovieTitle())).thenReturn(getMovie());
-        when(actorRepository.findActorByFio(actorCastDto.getActorFio())).thenReturn(actor);
 
         when(actorCastMapper.toEntity(actorCastDto)).thenReturn(actorsCast);
         when(actorCastRepository.save(actorsCast)).thenReturn(actorsCast);
@@ -93,8 +85,7 @@ public class ActorCastServiceTest {
     @Test
     void findActorsCastsByMovieTitleWhenActorsCastsNotExists() {
         final String title = getMovie().getTitle();
-        when(actorCastRepository.findActorsCastsByMovie_Title(title)).thenReturn(null);
-        assertThat(actorCastService.findAllActorsCasts()).isEmpty();
+        assertThat(actorCastService.findAllActorsCastByMovieTitle(title)).isEmpty();
     }
 
 
@@ -137,6 +128,7 @@ public class ActorCastServiceTest {
                 LocalDate.of(2003, 3, 3),
                 150,
                 director,
+                Collections.emptyList(),
                 Collections.emptyList());
     }
 

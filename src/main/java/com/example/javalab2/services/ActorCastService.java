@@ -47,7 +47,7 @@ public class ActorCastService {
         actorCastRepository.deleteById(id);
     }
 
-    public ActorCastDto findActorCastDtoById(Long id) throws ModelNotFoundException {
+    public ActorCastDto findActorCastById(Long id) throws ModelNotFoundException {
         if (id <= 0) {
             throw new IllegalArgumentException("id <= 0");
         }

@@ -2,6 +2,7 @@ package com.example.javalab2.repositories;
 
 import com.example.javalab2.entities.Director;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -35,6 +36,11 @@ public class DirectorRepositoryTest {
     void testThatConnectionEstablished() {
         assertThat(postgresSQLContainer.isCreated()).isTrue();
         assertThat(postgresSQLContainer.isRunning()).isTrue();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        directorRepository.deleteAll();
     }
 
     @AfterEach

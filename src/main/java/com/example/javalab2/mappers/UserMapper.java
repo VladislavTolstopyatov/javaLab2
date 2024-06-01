@@ -1,13 +1,13 @@
 package com.example.javalab2.mappers;
 
-import com.example.javalab2.dto.UserDto;
+import com.example.javalab2.dto.UsersDto.UserDto;
 import com.example.javalab2.entities.User;
 import com.example.javalab2.entities.enums.Role;
+import com.example.javalab2.mappers.FeedBackMapper;
+import com.example.javalab2.mappers.Mappable;
 import com.example.javalab2.repositories.UserRepository;
-import lombok.AllArgsConstructor;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 

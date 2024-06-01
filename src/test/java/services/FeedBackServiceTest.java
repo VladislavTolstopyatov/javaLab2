@@ -13,6 +13,8 @@ import com.example.javalab2.repositories.FeedBackRepository;
 import com.example.javalab2.services.FeedBackService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,13 +32,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class FeedBackServiceTest {
-    @MockBean
+    @Mock
     private FeedBackRepository feedBackRepository;
-    @MockBean
+    @Mock
     private FeedBackMapper feedBackMapper;
-    @Autowired
+    @InjectMocks
     private FeedBackService feedBackService;
 
     private static final Movie movie = new Movie(1L,
@@ -46,6 +47,7 @@ public class FeedBackServiceTest {
             LocalDate.of(2003, 3, 3),
             150,
             null,
+            Collections.emptyList(),
             Collections.emptyList());
 
     private static final User user = new User(1L,

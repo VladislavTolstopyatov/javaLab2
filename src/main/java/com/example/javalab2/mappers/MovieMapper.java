@@ -1,8 +1,13 @@
 package com.example.javalab2.mappers;
 
-import com.example.javalab2.dto.MovieDto;
+import com.example.javalab2.dto.MoviesDto.MovieDto;
 import com.example.javalab2.entities.Movie;
 import com.example.javalab2.entities.enums.Genre;
+import com.example.javalab2.mappers.ActorMapper;
+import com.example.javalab2.mappers.FeedBackMapper;
+import com.example.javalab2.mappers.Mappable;
+import com.example.javalab2.repositories.ActorCastRepository;
+import com.example.javalab2.repositories.ActorRepository;
 import com.example.javalab2.repositories.DirectorRepository;
 import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +19,15 @@ public abstract class MovieMapper implements Mappable<Movie, MovieDto> {
 
     @Autowired
     private DirectorRepository directorRepository;
+
+    @Autowired
+    private ActorCastRepository actorCastRepository;
+    @Autowired
+    private ActorRepository actorRepository;
     @Autowired
     private FeedBackMapper feedBackMapper;
+    @Autowired
+    private ActorMapper actorMapper;
 
     @Override
     public MovieDto toDto(Movie movieEntity) {
@@ -34,6 +46,7 @@ public abstract class MovieMapper implements Mappable<Movie, MovieDto> {
                         " " + movieEntity.getDirector().getPatronymic())
                 .feedbackDtoList(feedBackMapper.toDto(movieEntity.getFeedbacks()))
                 .duration(movieEntity.getDuration())
+                .actorDtoList(actorMapper.toDto(actorRepository.findActorsByMovieId(movieEntity.getId())))
                 .build();
     }
 
@@ -57,6 +70,7 @@ public abstract class MovieMapper implements Mappable<Movie, MovieDto> {
                         fio.get(2)))
                 .feedbacks(feedBackMapper.toEntities(dto.getFeedbackDtoList()))
                 .dateOfRelease(dto.getDateOfRelease())
+                .actorsCasts(actorCastRepository.findActorsCastsByMovieId(dto.getId()))
                 .build();
     }
 

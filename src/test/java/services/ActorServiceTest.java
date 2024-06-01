@@ -11,6 +11,8 @@ import com.example.javalab2.repositories.ActorRepository;
 import com.example.javalab2.services.ActorService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,21 +24,21 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = JavaLab2Application.class)
 public class ActorServiceTest {
 
-    @MockBean
+    @Mock
     private ActorMapper actorMapper;
 
-    @MockBean
+    @Mock
     private ActorRepository actorRepository;
 
-    @Autowired
+    @InjectMocks
     private ActorService actorService;
 
     @Test
@@ -148,7 +150,7 @@ public class ActorServiceTest {
     @Test
     void saveActorWhenFioUnique() throws ModelNotFoundException, ActorFioAlreadyExistsException {
         final Actor actor = getActor();
-        when(actorRepository.save(actor)).thenReturn(actor);
+        when(actorRepository.save(any())).thenReturn(actor);
         when(actorRepository.findById(actor.getId())).thenReturn(Optional.of(actor));
         when(actorMapper.toDto(actor)).thenReturn(getActorDto());
         actorService.saveActor(getActorDto());
@@ -157,7 +159,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    void saveActorWhenFioNotUnique() throws ActorFioAlreadyExistsException {
+    void saveActorWhenFioNotUnique() {
         final ActorDto actorDto = getActorDto();
         when(actorRepository.findActorByFio(actorDto.getFio())).thenReturn(getActor());
         assertThrows(ActorFioAlreadyExistsException.class, () -> actorService.saveActor(actorDto));

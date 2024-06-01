@@ -1,9 +1,9 @@
 package com.example.javalab2.repositories;
 
 import com.example.javalab2.entities.Director;
-import org.springframework.data.jdbc.repository.query.Modifying;
-import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +28,8 @@ public interface DirectorRepository extends JpaRepository<Director, Long> {
     Director findDirectorByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
 
     @Modifying
-    @Query("DELETE FROM directors WHERE directors.name LIKE :name AND surname LIKE :surname AND patronymic LIKE :patronymic")
+    @Query(value = "DELETE FROM directors WHERE directors.name LIKE :name " +
+            "AND surname LIKE :surname " +
+            "AND patronymic LIKE :patronymic",nativeQuery = true)
     void deleteDirectorByNameAndSurnameAndPatronymic(@Param("name") String name, @Param("surname") String surname, @Param("patronymic") String patronymic);
 }
