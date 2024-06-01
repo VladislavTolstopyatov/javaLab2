@@ -7,12 +7,14 @@ import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.mappers.ActorCastMapper;
 import com.example.javalab2.repositories.ActorCastRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ActorCastService {
     private final ActorCastRepository actorCastRepository;

@@ -5,9 +5,9 @@ import com.example.javalab2.entities.Actor;
 import com.example.javalab2.exceptions.ActorFioAlreadyExistsException;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.mappers.ActorMapper;
-import com.example.javalab2.mappers.ActorMapperImpl;
 import com.example.javalab2.repositories.ActorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ActorService {
     private final ActorRepository actorRepository;
     private final ActorMapper actorMapper;
 
-    public ActorDto getActorById(Long id) throws ModelNotFoundException {
+    public ActorDto findActorById(Long id) throws ModelNotFoundException {
         if (id <= 0) {
             throw new IllegalArgumentException("id <= 0");
         }

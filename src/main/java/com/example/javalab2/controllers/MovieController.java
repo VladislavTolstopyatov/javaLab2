@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -21,69 +23,70 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/movies")
 public class MovieController {
     private final MovieService movieService;
 
-    @PostMapping("/movies/save")
+    @PostMapping("/save")
     public ResponseEntity<String> saveMovie(@RequestBody CreateMovieDto createMovieDto) throws MovieTitleAlreadyExistsException {
         movieService.saveMovie(createMovieDto);
         return new ResponseEntity<>("Movie saved successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/movies/{id}")
+    @GetMapping("/movie/{id}")
     public ResponseEntity<MovieDto> getMovieById(@PathVariable("id") Long movieId) throws ModelNotFoundException {
         return new ResponseEntity<>(movieService.findMovieById(movieId), HttpStatus.OK);
     }
 
-    @GetMapping("/movies")
+    @GetMapping
     public ResponseEntity<List<MovieDto>> getAllMovies() {
         return new ResponseEntity<>(movieService.findAllMovies(), HttpStatus.OK);
     }
 
-    @GetMapping("/movies/descriptions/{description}")
-    public ResponseEntity<MovieDto> getMovieByDescription(@PathVariable("description") String description) throws ModelNotFoundException {
+    @GetMapping("/movie/description")
+    public ResponseEntity<MovieDto> getMovieByDescription(@RequestParam String description) throws ModelNotFoundException {
         return new ResponseEntity<>(movieService.findMovieByDescription(description), HttpStatus.OK);
     }
 
-    @GetMapping("/movies/dateOfReleases/{dateOfRelease}")
-    public ResponseEntity<List<MovieDto>> getMoviesByDateOfRelease(@PathVariable("dateOfRelease") LocalDate dateOfRelease) {
+    @GetMapping("/dateOfRelease")
+    public ResponseEntity<List<MovieDto>> getMoviesByDateOfRelease(@RequestParam LocalDate dateOfRelease) {
         return new ResponseEntity<>(movieService.findMoviesByDateOfRelease(dateOfRelease), HttpStatus.OK);
     }
 
-    @GetMapping("/movies/genres/{genre}")
-    public ResponseEntity<List<MovieDto>> getMoviesByGenre(@PathVariable("genre") Genre genre) {
+    @GetMapping("/genre")
+    public ResponseEntity<List<MovieDto>> getMoviesByGenre(@RequestParam Genre genre) {
         return new ResponseEntity<>(movieService.findMoviesByGenre(genre), HttpStatus.OK);
     }
 
-    @GetMapping("/movies/durations/{duration}")
-    public ResponseEntity<List<MovieDto>> getMoviesByDuration(@PathVariable("duration") Integer duration) {
+    @GetMapping("/duration")
+    public ResponseEntity<List<MovieDto>> getMoviesByDuration(@RequestParam Integer duration) {
         return new ResponseEntity<>(movieService.findMoviesByDuration(duration), HttpStatus.OK);
     }
 
-    @GetMapping("/movies/directorsId/{id}")
+    @GetMapping("/movie/directorsId/{id}")
     public ResponseEntity<List<MovieDto>> getMoviesByDirectorId(@PathVariable("id") Long directorId) {
         return new ResponseEntity<>(movieService.findMoviesByDirectorId(directorId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/movies/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAllMovies() {
         movieService.deleteAllMovies();
         return new ResponseEntity<>("All movies have been deleted", HttpStatus.OK);
     }
 
-    @DeleteMapping("/movies/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteMovieById(@PathVariable("id") Long movieId) {
         movieService.deleteMovieById(movieId);
         return new ResponseEntity<>(String.format("Movie with id %d have been deleted", movieId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/movies/deleteByTitle/{title}")
-    public ResponseEntity<String> deleteMovieByTitle(@PathVariable("title") String title) {
+    @DeleteMapping("/deleteByTitle/title")
+    public ResponseEntity<String> deleteMovieByTitle(@RequestParam String title) {
         movieService.deleteMovieByTitle(title);
         return new ResponseEntity<>(String.format("Movie with title %s have been deleted", title), HttpStatus.OK);
     }
 
-    @DeleteMapping("/movies/deleteByDirectorId/{id}")
+    @DeleteMapping("/deleteByDirectorId/{id}")
     public ResponseEntity<String> deleteMoviesByDirectorId(@PathVariable("id") Long directorId) {
         movieService.deleteMoviesByDirectorId(directorId);
         return new ResponseEntity<>(String.format("Movies have been deleted by directorId %d", directorId), HttpStatus.OK);

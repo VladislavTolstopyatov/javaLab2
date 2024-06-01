@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -18,63 +20,64 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/directors")
 public class DirectorController {
     private final DirectorService directorService;
 
-    @PostMapping("/directors/save")
+    @PostMapping("/save")
     public ResponseEntity<String> saveDirector(@RequestBody DirectorDto directorDto) {
         directorService.saveDirector(directorDto);
         return new ResponseEntity<>("Director saved successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/directors/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DirectorDto> getDirectorById(@PathVariable("id") Long directorId) throws ModelNotFoundException {
         return new ResponseEntity<>(directorService.findDirectorById(directorId), HttpStatus.OK);
     }
 
-    @GetMapping("/directors")
+    @GetMapping
     public ResponseEntity<List<DirectorDto>> getAllDirectors() {
         return new ResponseEntity<>(directorService.findAllDirectors(), HttpStatus.OK);
     }
 
-    @GetMapping("/directors/names/{name}")
-    public ResponseEntity<List<DirectorDto>> getAllDirectorsByName(@PathVariable("name") String name) {
+    @GetMapping("/name")
+    public ResponseEntity<List<DirectorDto>> getAllDirectorsByName(@RequestParam String name) {
         return new ResponseEntity<>(directorService.findDirectorsByName(name), HttpStatus.OK);
     }
 
-    @GetMapping("/directors/surnames/{surname}")
-    public ResponseEntity<List<DirectorDto>> getAllDirectorsBySurname(@PathVariable("surname") String surname) {
+    @GetMapping("/surname")
+    public ResponseEntity<List<DirectorDto>> getAllDirectorsBySurname(@RequestParam String surname) {
         return new ResponseEntity<>(directorService.findDirectorsBySurname(surname), HttpStatus.OK);
     }
 
-    @GetMapping("/directors/patronymics/{patronymic}")
-    public ResponseEntity<List<DirectorDto>> getAllDirectorsByPatronymic(@PathVariable("patronymic") String patronymic) {
+    @GetMapping("/patronymic")
+    public ResponseEntity<List<DirectorDto>> getAllDirectorsByPatronymic(@RequestParam String patronymic) {
         return new ResponseEntity<>(directorService.findDirectorsByPatronymic(patronymic), HttpStatus.OK);
     }
 
-    @GetMapping("/directors/birthdates/{birthdate}")
-    public ResponseEntity<List<DirectorDto>> getAllDirectorsByBirthdate(@PathVariable("birthdate") LocalDate birthdate) {
+    @GetMapping("/birthdate")
+    public ResponseEntity<List<DirectorDto>> getAllDirectorsByBirthdate(@RequestParam LocalDate birthdate) {
         return new ResponseEntity<>(directorService.findDirectorsByBirthdate(birthdate), HttpStatus.OK);
     }
 
-    @GetMapping("/directors/oscars/{oscar}")
-    public ResponseEntity<List<DirectorDto>> getAllDirectorsByOscar(@PathVariable("oscar") Boolean oscar) {
+    @GetMapping("/oscar")
+    public ResponseEntity<List<DirectorDto>> getAllDirectorsByOscar(@RequestParam Boolean oscar) {
         return new ResponseEntity<>(directorService.findDirectorsByOscar(oscar), HttpStatus.OK);
     }
 
-    @DeleteMapping("/directors/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAllDirectors() {
         directorService.deleteAllDirectors();
         return new ResponseEntity<>("Directors have been deleted", HttpStatus.OK);
     }
 
-    @DeleteMapping("/directors/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteDirectorById(@PathVariable("id") Long directorId) {
         directorService.deleteDirectorById(directorId);
         return new ResponseEntity<>(String.format("Director with id %d have been deleted", directorId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/directors/fio/{name}/{surname}/{patronymic}")
+    @DeleteMapping("/delete/fio/{name}/{surname}/{patronymic}")
     public ResponseEntity<String> deleteDirectorByNameSurnameAndPatronymic(
             @PathVariable("name") String name,
             @PathVariable("surname") String surname,

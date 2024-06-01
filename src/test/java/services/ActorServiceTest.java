@@ -1,7 +1,6 @@
 package services;
 
 
-import com.example.javalab2.JavaLab2Application;
 import com.example.javalab2.dto.ActorDto;
 import com.example.javalab2.entities.Actor;
 import com.example.javalab2.exceptions.ActorFioAlreadyExistsException;
@@ -14,9 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -55,7 +51,7 @@ public class ActorServiceTest {
 
         when(actorRepository.findById(actorDto.getId())).thenReturn(Optional.of(actor));
         when(actorMapper.toDto(actor)).thenReturn(actorDto);
-        assertThat(actorService.getActorById(actor.getId())).isEqualTo(actorDto);
+        assertThat(actorService.findActorById(actor.getId())).isEqualTo(actorDto);
     }
 
     @Test
@@ -64,7 +60,7 @@ public class ActorServiceTest {
         final Actor actor = getActor();
 
         when(actorRepository.findById(actorDto.getId())).thenReturn(Optional.empty());
-        assertThrows(ModelNotFoundException.class, () -> actorService.getActorById(actor.getId()));
+        assertThrows(ModelNotFoundException.class, () -> actorService.findActorById(actor.getId()));
     }
 
     @Test
@@ -96,7 +92,7 @@ public class ActorServiceTest {
     @Test
     void findActorByIdWithNotValidId() {
         final Long id = -1L;
-        assertThrows(IllegalArgumentException.class, () -> actorService.getActorById(id));
+        assertThrows(IllegalArgumentException.class, () -> actorService.findActorById(id));
     }
 
     @Test
@@ -154,7 +150,7 @@ public class ActorServiceTest {
         when(actorRepository.findById(actor.getId())).thenReturn(Optional.of(actor));
         when(actorMapper.toDto(actor)).thenReturn(getActorDto());
         actorService.saveActor(getActorDto());
-        ActorDto result = actorService.getActorById(actor.getId());
+        ActorDto result = actorService.findActorById(actor.getId());
         assertThat(result).isEqualTo(getActorDto());
     }
 

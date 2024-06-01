@@ -10,19 +10,29 @@ import com.example.javalab2.mappers.CreateUserDtoMapper;
 import com.example.javalab2.mappers.UserMapper;
 import com.example.javalab2.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Primary;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
+@Primary
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final CreateUserDtoMapper createUserDtoMapper;
 
-    public CreateUserDto saveUser(CreateUserDto createUserDto) throws EmailAlreadyExistsException, NickNameAlreadyExistsException {
+    private final PasswordEncoder passwordEncoder;
+
+    public CreateUserDto registerUser(CreateUserDto createUserDto) throws EmailAlreadyExistsException, NickNameAlreadyExistsException {
         User user = userRepository.findUserByEmail(createUserDtoMapper.toEntity(createUserDto).getEmail());
         if (user != null) {
             throw new EmailAlreadyExistsException(String.format("User with email %s already exists",
@@ -35,11 +45,13 @@ public class UserService {
                     createUserDto.getNickName()));
         }
 
-        user = userRepository.save(createUserDtoMapper.toEntity(createUserDto));
+        user = createUserDtoMapper.toEntity(createUserDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user = userRepository.save(user);
         return createUserDtoMapper.toDto(user);
     }
 
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> findAllUsers() {
         return userMapper.toDto(userRepository.findAll());
     }
 

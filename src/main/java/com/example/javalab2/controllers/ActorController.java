@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -19,48 +21,49 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/actors")
 public class ActorController {
     private final ActorService actorService;
 
-    @PostMapping("/actors/save")
+    @PostMapping("/save")
     public ResponseEntity<String> saveActor(@RequestBody ActorDto actorDto) throws ActorFioAlreadyExistsException {
         actorService.saveActor(actorDto);
         return new ResponseEntity<>("Actor saved successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/actors/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ActorDto> getActorById(@PathVariable("id") Long actorId) throws ModelNotFoundException {
-        return new ResponseEntity<>(actorService.getActorById(actorId), HttpStatus.OK);
+        return new ResponseEntity<>(actorService.findActorById(actorId), HttpStatus.OK);
     }
 
-    @GetMapping("/actors")
+    @GetMapping
     public ResponseEntity<List<ActorDto>> getAllActors() {
         return new ResponseEntity<>(actorService.findAllActors(), HttpStatus.OK);
     }
 
-    @GetMapping("/actors/fio/{fio}")
-    public ResponseEntity<ActorDto> getActorByFio(@PathVariable("fio") String fio) throws ModelNotFoundException {
+    @GetMapping("/fio")
+    public ResponseEntity<ActorDto> getActorByFio(@RequestParam String fio) throws ModelNotFoundException {
         return new ResponseEntity<>(actorService.findActorByFio(fio), HttpStatus.OK);
     }
 
-    @GetMapping("/actors/birthdates/{birthdate}")
-    public ResponseEntity<List<ActorDto>> getActorsByBirthdate(@PathVariable("birthdate") LocalDate birthdate) {
+    @GetMapping("/birthdate")
+    public ResponseEntity<List<ActorDto>> getActorsByBirthdate(@RequestParam LocalDate birthdate) {
         return new ResponseEntity<>(actorService.findActorsByBirthdate(birthdate), HttpStatus.OK);
     }
 
-    @DeleteMapping("/actors/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> deleteAllActors() {
         actorService.deleteAllActors();
         return new ResponseEntity<>("All actors have been deleted", HttpStatus.OK);
     }
 
-    @DeleteMapping("/actors/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteActorById(@PathVariable("id") Long actorId) {
         actorService.deleteActorById(actorId);
         return new ResponseEntity<>(String.format("Actor with id %d have been deleted", actorId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/actors/deleteByFio/{fio}")
+    @DeleteMapping("/deleteByFio/{fio}")
     public ResponseEntity<String> deleteActorByFio(@PathVariable("fio") String fio) {
         actorService.deleteActorByFio(fio);
         return new ResponseEntity<>(String.format("Actor with fio %s have been deleted", fio), HttpStatus.OK);

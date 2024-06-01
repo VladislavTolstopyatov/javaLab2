@@ -6,6 +6,7 @@ import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.mappers.DirectorMapper;
 import com.example.javalab2.repositories.DirectorRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class DirectorService {
     private final DirectorRepository directorRepository;

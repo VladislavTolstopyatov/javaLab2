@@ -51,7 +51,7 @@ public class UserServiceTest {
         when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
         when(createUserDtoMapper.toDto(user)).thenReturn(createUserDto);
 
-        assertThat(createUserDto).isEqualTo(userService.saveUser(createUserDto));
+        assertThat(createUserDto).isEqualTo(userService.registerUser(createUserDto));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class UserServiceTest {
         when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
         when(userRepository.findUserByNickName(createUserDto.getNickName())).thenReturn(user);
 
-        assertThrows(NickNameAlreadyExistsException.class, () -> userService.saveUser(createUserDto));
+        assertThrows(NickNameAlreadyExistsException.class, () -> userService.registerUser(createUserDto));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class UserServiceTest {
         when(createUserDtoMapper.toEntity(createUserDto)).thenReturn(user);
         when(userRepository.findUserByEmail(createUserDto.getEmail())).thenReturn(user);
 
-        assertThrows(EmailAlreadyExistsException.class, () -> userService.saveUser(createUserDto));
+        assertThrows(EmailAlreadyExistsException.class, () -> userService.registerUser(createUserDto));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class UserServiceTest {
         when(userMapper.toDto(userList)).thenReturn(userDtos);
         when(userRepository.findAll()).thenReturn(userList);
 
-        assertThat(userDtos.get(0)).isEqualTo(userService.getAllUsers().get(0));
+        assertThat(userDtos.get(0)).isEqualTo(userService.findAllUsers().get(0));
     }
 
     @Test

@@ -10,6 +10,7 @@ import com.example.javalab2.mappers.CreateMovieDtoMapper;
 import com.example.javalab2.mappers.MovieMapper;
 import com.example.javalab2.repositories.MovieRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class MovieService {
     private final MovieRepository movieRepository;
