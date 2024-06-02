@@ -8,6 +8,8 @@ import com.example.javalab2.mappers.ActorMapper;
 import com.example.javalab2.repositories.ActorRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = {"main"})
 @RequiredArgsConstructor
 public class ActorService {
     private final ActorRepository actorRepository;
@@ -34,6 +37,7 @@ public class ActorService {
         }
     }
 
+    @Cacheable
     public List<ActorDto> findAllActors() {
         return actorMapper.toDto(actorRepository.findAll());
     }
@@ -49,6 +53,7 @@ public class ActorService {
         actorRepository.deleteById(id);
     }
 
+    @Cacheable
     public ActorDto findActorByFio(String fio) throws ModelNotFoundException {
         Actor actor = actorRepository.findActorByFio(fio);
         if (actor != null) {

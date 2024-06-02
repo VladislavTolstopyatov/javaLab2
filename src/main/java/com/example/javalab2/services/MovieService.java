@@ -11,6 +11,8 @@ import com.example.javalab2.mappers.MovieMapper;
 import com.example.javalab2.repositories.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = {"main"})
 @RequiredArgsConstructor
 public class MovieService {
     private final MovieRepository movieRepository;
@@ -54,6 +57,7 @@ public class MovieService {
         movieRepository.deleteById(id);
     }
 
+    @Cacheable
     public List<MovieDto> findAllMovies() {
         return movieMapper.toDto(movieRepository.findAll());
     }
@@ -62,6 +66,7 @@ public class MovieService {
         movieRepository.deleteAll();
     }
 
+    @Cacheable
     public MovieDto findMovieByTitle(String title) throws ModelNotFoundException {
         Movie movie = movieRepository.findMovieByTitle(title);
         if (movie != null) {
@@ -80,14 +85,17 @@ public class MovieService {
         }
     }
 
+    @Cacheable
     public List<MovieDto> findMoviesByDateOfRelease(LocalDate dateOfRelease) {
         return movieMapper.toDto(movieRepository.findMoviesByDateOfRelease(dateOfRelease));
     }
 
+    @Cacheable
     public List<MovieDto> findMoviesByGenre(Genre genre) {
         return movieMapper.toDto(movieRepository.findMoviesByGenre(genre));
     }
 
+    @Cacheable
     public List<MovieDto> findMoviesByDuration(Integer duration) {
         if (duration <= 0) {
             throw new IllegalArgumentException("duration <= 0");

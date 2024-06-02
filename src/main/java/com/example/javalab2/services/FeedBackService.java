@@ -7,6 +7,8 @@ import com.example.javalab2.mappers.FeedBackMapper;
 import com.example.javalab2.repositories.FeedBackRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
+@CacheConfig(cacheNames = {"main"})
 @RequiredArgsConstructor
 public class FeedBackService {
     private final FeedBackRepository feedBackRepository;
@@ -80,6 +83,7 @@ public class FeedBackService {
         return feedBackMapper.toDto(feedBackRepository.findFeedbacksByUserId(id));
     }
 
+    @Cacheable
     public List<FeedbackDto> findFeedBacksByMovieId(Long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("id <= 0");

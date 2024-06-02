@@ -1,7 +1,6 @@
 package com.example.javalab2.services;
 
 import com.example.javalab2.dto.ActorCastDto;
-import com.example.javalab2.entities.Actor;
 import com.example.javalab2.entities.ActorsCast;
 import com.example.javalab2.exceptions.ModelNotFoundException;
 import com.example.javalab2.mappers.ActorCastMapper;

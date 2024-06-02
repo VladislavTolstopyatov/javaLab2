@@ -11,10 +11,9 @@ import com.example.javalab2.mappers.UserMapper;
 import com.example.javalab2.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@Primary
+@CacheConfig(cacheNames = {"main"})
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
@@ -51,10 +50,12 @@ public class UserService {
         return createUserDtoMapper.toDto(user);
     }
 
+    @Cacheable
     public List<UserDto> findAllUsers() {
         return userMapper.toDto(userRepository.findAll());
     }
 
+    @Cacheable
     public UserDto findUserById(Long id) throws ModelNotFoundException {
         if (id <= 0) {
             throw new IllegalArgumentException("id <= 0");
@@ -78,6 +79,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
+    @Cacheable
     public UserDto findUserByNickName(String nickName) throws ModelNotFoundException {
         User user = userRepository.findUserByNickName(nickName);
         if (user == null) {
