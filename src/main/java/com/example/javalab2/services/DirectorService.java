@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Slf4j
 @CacheConfig(cacheNames = {"main"})
 @RequiredArgsConstructor
 public class DirectorService {

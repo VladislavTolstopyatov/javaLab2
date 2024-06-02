@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@RestControllerAdvice
 @Slf4j
+@RestControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ModelNotFoundException.class)
@@ -47,13 +47,19 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleEmailAlreadyExistsException(EmailAlreadyExistsException e) {
-        log.error(e.getMessage());
         return e.getMessage();
     }
 
     @ExceptionHandler(NickNameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleNickNameAlreadyExistsException(NickNameAlreadyExistsException e) {
+        log.error(e.getMessage());
+        return e.getMessage();
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleRuntimeException(RuntimeException e) {
         log.error(e.getMessage());
         return e.getMessage();
     }

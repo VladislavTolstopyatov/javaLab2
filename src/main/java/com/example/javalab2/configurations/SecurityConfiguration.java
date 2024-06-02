@@ -39,8 +39,8 @@ public class SecurityConfiguration {
 
                     registry.requestMatchers(HttpMethod.GET,
                             "/actorsCasts/**",
-                            "/actors",
-                            "/directors",
+                            "/actors/**",
+                            "/directors/**",
                             "/movies/**",
                             "/users/**",
                             "/feedbacks/**"
