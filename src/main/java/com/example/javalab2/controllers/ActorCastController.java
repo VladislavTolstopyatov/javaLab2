@@ -23,7 +23,7 @@ import java.util.List;
 public class ActorCastController {
     private final ActorCastService actorCastService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String> saveActorCast(@RequestBody ActorCastDto actorCastDto) {
         actorCastService.saveActorCast(actorCastDto);
         return new ResponseEntity<>("ActorCast saved successfully", HttpStatus.CREATED);

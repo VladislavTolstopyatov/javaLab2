@@ -25,7 +25,7 @@ import java.util.List;
 public class ActorController {
     private final ActorService actorService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String> saveActor(@RequestBody ActorDto actorDto) throws ActorFioAlreadyExistsException {
         actorService.saveActor(actorDto);
         return new ResponseEntity<>("Actor saved successfully", HttpStatus.CREATED);
@@ -63,7 +63,7 @@ public class ActorController {
         return new ResponseEntity<>(String.format("Actor with id %d have been deleted", actorId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteByFio/{fio}")
+    @DeleteMapping("/delete/{fio}")
     public ResponseEntity<String> deleteActorByFio(@PathVariable("fio") String fio) {
         actorService.deleteActorByFio(fio);
         return new ResponseEntity<>(String.format("Actor with fio %s have been deleted", fio), HttpStatus.OK);

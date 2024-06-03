@@ -21,7 +21,7 @@ import java.util.List;
 public class FeedbackController {
     private final FeedBackService feedBackService;
 
-    @PostMapping("movies/movie/*/feedbacks/save")
+    @PostMapping("movies/movie/*/feedbacks")
     public ResponseEntity<String> saveFeedback(@RequestBody FeedbackDto feedbackDto) {
         feedBackService.saveFeedBack(feedbackDto);
         return new ResponseEntity<>("Feedback saved successfully", HttpStatus.CREATED);
@@ -46,13 +46,6 @@ public class FeedbackController {
     public ResponseEntity<List<FeedbackDto>> getFeedbacksByMovieId(@PathVariable("id") Long movieId) {
         return new ResponseEntity<>(feedBackService.findFeedBacksByMovieId(movieId), HttpStatus.OK);
     }
-
-    // TODO ????
-//    @GetMapping("/feedbacks/movieUserId/{movieId}{userId}")
-//    public ResponseEntity<List<FeedbackDto>> getFeedbacksByMovieIdAndUserId(@PathVariable("movieId") Long movieId,
-//                                                                            @PathVariable("userId") Long userId) {
-//        return new ResponseEntity<>(feedBackService.findFeedBacksByMovieIdAndUserId(movieId, userId), HttpStatus.OK);
-//    }
 
     @DeleteMapping("/feedbacks/delete")
     public ResponseEntity<String> deleteAllFeedbacks() {

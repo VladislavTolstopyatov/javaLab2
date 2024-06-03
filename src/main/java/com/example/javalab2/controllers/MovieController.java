@@ -27,7 +27,7 @@ import java.util.List;
 public class MovieController {
     private final MovieService movieService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String> saveMovie(@RequestBody CreateMovieDto createMovieDto) throws MovieTitleAlreadyExistsException {
         movieService.saveMovie(createMovieDto);
         return new ResponseEntity<>("Movie saved successfully", HttpStatus.CREATED);

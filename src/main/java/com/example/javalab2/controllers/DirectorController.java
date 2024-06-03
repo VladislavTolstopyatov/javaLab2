@@ -24,7 +24,7 @@ import java.util.List;
 public class DirectorController {
     private final DirectorService directorService;
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String> saveDirector(@RequestBody DirectorDto directorDto) {
         directorService.saveDirector(directorDto);
         return new ResponseEntity<>("Director saved successfully", HttpStatus.CREATED);
@@ -77,15 +77,15 @@ public class DirectorController {
         return new ResponseEntity<>(String.format("Director with id %d have been deleted", directorId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/fio/{name}/{surname}/{patronymic}")
-    public ResponseEntity<String> deleteDirectorByNameSurnameAndPatronymic(
-            @PathVariable("name") String name,
-            @PathVariable("surname") String surname,
-            @PathVariable("patronymic") String patronymic) {
-
-        directorService.deleteDirectorByNameAndSurnameAndPatronymic(name, surname, patronymic);
-        return new ResponseEntity<>(String.format("Director with name %s, " +
-                "surname %s, " +
-                "patronymic %s  have been deleted", name, surname, patronymic), HttpStatus.OK);
-    }
+//    @DeleteMapping("/delete/fio/{name}/{surname}/{patronymic}")
+//    public ResponseEntity<String> deleteDirectorByNameSurnameAndPatronymic(
+//            @PathVariable("name") String name,
+//            @PathVariable("surname") String surname,
+//            @PathVariable("patronymic") String patronymic) {
+//
+//        directorService.deleteDirectorByNameAndSurnameAndPatronymic(name, surname, patronymic);
+//        return new ResponseEntity<>(String.format("Director with name %s, " +
+//                "surname %s, " +
+//                "patronymic %s  have been deleted", name, surname, patronymic), HttpStatus.OK);
+//    }
 }
