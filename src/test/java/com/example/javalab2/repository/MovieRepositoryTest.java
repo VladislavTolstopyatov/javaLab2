@@ -48,6 +48,7 @@ public class MovieRepositoryTest {
     @BeforeEach
     void setUp() {
         movieRepository.deleteAll();
+
         director = directorRepository.save(new Director(null,
                 "test",
                 "test",

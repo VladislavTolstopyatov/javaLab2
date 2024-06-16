@@ -89,7 +89,7 @@ public class DirectorRepositoryTest {
                         Boolean.FALSE, Collections.emptyList()));
 
         directorRepository.saveAll(directorList);
-        List<Director> directors = (List<Director>) directorRepository.findAll();
+        List<Director> directors = directorRepository.findAll();
         assertTrue(directors.size() == directorList.size() &&
                 directors.containsAll(directorList) && directorList.containsAll(directors));
     }

@@ -81,9 +81,15 @@ public class ActorCastRepositoryTest {
         ));
     }
 
+    @BeforeEach
+    void beforeEach() {
+        directorRepository.deleteById(director.getId());
+        actorRepository.deleteById(actor.getId());
+    }
+
     @AfterEach
     void tearDown() {
-        directorRepository.existsById(director.getId());
+        directorRepository.deleteById(director.getId());
         actorRepository.deleteById(actor.getId());
     }
 
@@ -115,7 +121,7 @@ public class ActorCastRepositoryTest {
                         movie));
         actorCastRepository.saveAll(actorsCastList);
 
-        List<ActorsCast> actorsCasts = (List<ActorsCast>) actorCastRepository.findAll();
+        List<ActorsCast> actorsCasts = actorCastRepository.findAll();
         assertTrue(actorsCasts.size() == actorsCastList.size() &&
                 actorsCasts.containsAll(actorsCastList) && actorsCastList.containsAll(actorsCasts));
     }

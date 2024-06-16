@@ -3,6 +3,7 @@ package com.example.javalab2.repository;
 import com.example.javalab2.entity.User;
 import com.example.javalab2.entity.enums.Role;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -37,6 +38,11 @@ public class UserRepositoryTest {
         assertThat(postgresSQLContainer.isRunning()).isTrue();
     }
 
+
+    @BeforeEach
+    void beforeEach() {
+        userRepository.deleteAll();
+    }
 
     @AfterEach
     void tearDown() {
